@@ -83,6 +83,9 @@ func (me *PriorityBitmap) lazyInit() {
 
 // Returns true if the priority is changed, or the bit wasn't present.
 func (me *PriorityBitmap) Set(bit int, priority int) bool {
+	me.mu.Lock()
+	defer me.mu.Unlock()
+
 	if p, ok := me.priorities[bit]; ok && p == priority {
 		return false
 	}
